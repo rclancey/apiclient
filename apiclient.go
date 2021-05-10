@@ -69,6 +69,14 @@ func (c *HTTPClient) Do(req *http.Request) (*http.Response, error) {
 	return c.client.Do(req)
 }
 
+func (c *HTTPClient) Get(u string) (*http.Response, error) {
+	req, err := http.NewRequest(http.MethodGet, u, nil)
+	if err != nil {
+		return nil, err
+	}
+	return c.Do(req)
+}
+
 type APIClient struct {
 	BaseURL *url.URL
 	CacheDirectory string
