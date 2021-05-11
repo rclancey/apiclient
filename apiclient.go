@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	//"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/cookiejar"
 	//"net/http/httputil"
@@ -63,9 +64,11 @@ func (c *HTTPClient) Do(req *http.Request) (*http.Response, error) {
 		t := c.lastRequest.Add(time.Duration(float64(time.Second) / c.rateLimit))
 		delay := t.Sub(time.Now())
 		if delay > 0 {
+			log.Printf("ratelimiting %s", delay)
 			time.Sleep(delay)
 		}
 	}
+	log.Println(req.Method, req.URL)
 	return c.client.Do(req)
 }
 
