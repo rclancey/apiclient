@@ -14,6 +14,7 @@ import (
 	"net/url"
 	//"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"golang.org/x/net/publicsuffix"
@@ -171,7 +172,7 @@ func (c *APIClient) GetObj(rsrc string, args url.Values, obj interface{}) error 
 	if res.StatusCode != http.StatusOK {
 		return errors.New(res.Status)
 	}
-	ct := res.Header.Get("Content-Type")
+	ct := strings.Split(res.Header.Get("Content-Type"), ";")[0]
 	if ct != "application/json" {
 		return errors.Errorf("not a json response (%s)", ct)
 	}
